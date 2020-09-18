@@ -54,8 +54,14 @@ resource "aws_instance" "ec2" {
     ami = data.aws_ami.aws_linux.id
     instance_type = "t2.micro"
     security_groups = [ aws_security_group.ssh_group.name ]
+    key_name = aws_key_pair.ssh_keypair.key_name
 
     tags = {
         Name = "gerome-dev-sa-ec2-intro"
     }
+}
+
+resource "aws_key_pair" "ssh_keypair" {
+    key_name = "ssh_keypair"
+    public_key = file("./keys/sa_rsa.pub")
 }
